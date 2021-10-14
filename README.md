@@ -33,7 +33,7 @@ RABIN-RESEARCH
   > > `git clone https://github.com/VirangParekh/Rabin-Research.git`
 - Set up a python virtual environment using the following commands:
 
-```shell
+```s
 pip install virtualenv
 python -m venv env
 ```
@@ -67,7 +67,7 @@ We'll come up with this as we build the project. Thanks for waiting, okay. Thank
   > `$ black .`
   > OR
   >
-  > ```
-  > $ pip install black
-  > $ black .
+  > ```python
+  > pip install black
+  > black .
   > ```
