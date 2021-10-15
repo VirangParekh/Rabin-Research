@@ -33,7 +33,7 @@ RABIN-RESEARCH
   > > `git clone https://github.com/VirangParekh/Rabin-Research.git`
 - Set up a python virtual environment using the following commands:
 
-```s
+```console
 pip install virtualenv
 python -m venv env
 ```
