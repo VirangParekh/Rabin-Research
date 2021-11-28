@@ -14,7 +14,9 @@ class ModSqrtTestCase(unittest.TestCase):
         self.assertIn(modsqrt(4, SMALL_PRIME), [2, SMALL_PRIME - 2])
         self.assertIn(modsqrt(18, SMALL_PRIME), [42, SMALL_PRIME - 42])
         self.assertIn(modsqrt(1, SMALL_PRIME), [1, SMALL_PRIME - 1])
-        self.assertIn(modsqrt(99999 * SMALL_PRIME + 1, SMALL_PRIME), [1, SMALL_PRIME -1])
+        self.assertIn(
+            modsqrt(99999 * SMALL_PRIME + 1, SMALL_PRIME), [1, SMALL_PRIME - 1]
+        )
 
     def test_small_prime_not_exist(self):
         self.assertEqual(modsqrt(92, SMALL_PRIME), 0)
@@ -35,6 +37,6 @@ class ModInverseTestCase(unittest.TestCase):
         self.assertEqual(modinv(1000, SMALL_PRIME), 55)
 
     def test_big_prime_exist(self):
-        self.assertEqual(modinv(-2 ** 522, BIG_PRIME), 2 ** 520 -1)
+        self.assertEqual(modinv(-(2 ** 522), BIG_PRIME), 2 ** 520 - 1)
         self.assertEqual(modinv(2 ** 485, BIG_PRIME), 68719476736)
         self.assertEqual(modinv(2 ** 555, BIG_PRIME), 2 ** 487)

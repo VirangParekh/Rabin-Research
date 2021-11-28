@@ -4,30 +4,33 @@ import random
 
 
 def gcd(e, r):
-    while(r != 0):
+    while r != 0:
         e, r = r, e % r
     return e
+
 
 # Extended Euclidean Algorithm
 
 
 def eea(a, b):
-    if(a % b == 0):
-        return(b, 0, 1)
+    if a % b == 0:
+        return (b, 0, 1)
     else:
         gcd, s, t = eea(b, a % b)
-        s = s-((a//b) * t)
-        return(gcd, t, s)
+        s = s - ((a // b) * t)
+        return (gcd, t, s)
+
 
 # Multiplicative Inverse
 
 
 def mult_inv(e, r):
     gcd, s, _ = eea(e, r)
-    if(gcd != 1):
+    if gcd != 1:
         return None
     else:
         return s % r
+
 
 # rsa encryption
 
@@ -45,16 +48,16 @@ def rsa_encrypt(pub_key, text):
 
 
 # rsa decryption
-'''DECRYPTION ALGORITHM'''
+"""DECRYPTION ALGORITHM"""
 
 
 def rsa_decrypt(priv_key, c_text):
     n, d = priv_key
-    txt = c_text.split(',')
-    x = ''
+    txt = c_text.split(",")
+    x = ""
     index = 0
     for i in txt:
-        index = (int(i)**d) % n
+        index = (int(i) ** d) % n
         # print(index)
         c = chr(index)
         x += c
@@ -72,7 +75,7 @@ print(p, q, n, totient)
 # e Value Calculation
 e_list = list()
 for i in range(2, totient):
-    if(gcd(i, totient) == 1):
+    if gcd(i, totient) == 1:
         e_list.append(i)
 e = random.choice(e_list)
 e = e_list[4]
@@ -96,7 +99,7 @@ print(plain_text)
 
 r = random.randint(2, n)
 print(r)
-txt = cipher_text.split(',')
+txt = cipher_text.split(",")
 xor_cipher_text = list()
 for i in txt:
     i = int(i, base=10)

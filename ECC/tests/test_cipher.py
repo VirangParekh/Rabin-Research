@@ -1,8 +1,6 @@
 import unittest
 
-from ecc.curve import (
-    P256, secp256k1, Curve25519, M383, E222, E382
-)
+from ecc.curve import P256, secp256k1, Curve25519, M383, E222, E382
 from ecc.cipher import ElGamal
 from ecc.key import gen_keypair
 

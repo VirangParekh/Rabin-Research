@@ -43,7 +43,7 @@ class Point:
         return self.__add__(other)
 
     def __sub__(self, other):
-        negative = - other
+        negative = -other
         return self.__add__(negative)
 
     def __mul__(self, scalar: int):
@@ -71,8 +71,12 @@ class Curve(ABC):
 
     def __eq__(self, other):
         return (
-            self.a == other.a and self.b == other.b and self.p == other.p and
-            self.n == other.n and self.G_x == other.G_x and self.G_y == other.G_y
+            self.a == other.a
+            and self.b == other.b
+            and self.p == other.p
+            and self.n == other.n
+            and self.G_x == other.G_x
+            and self.G_y == other.G_y
         )
 
     @property
@@ -178,9 +182,10 @@ class Curve(ABC):
 
     def decode_point(self, M: Point) -> bytes:
         byte_len = int_length_in_byte(M.x)
-        plaintext_len = (M.x >> ((byte_len - 1) * 8)) & 0xff
-        plaintext = ((M.x >> ((byte_len - plaintext_len - 1) * 8))
-                     & (int.from_bytes(b"\xff" * plaintext_len, "big")))
+        plaintext_len = (M.x >> ((byte_len - 1) * 8)) & 0xFF
+        plaintext = (M.x >> ((byte_len - plaintext_len - 1) * 8)) & (
+            int.from_bytes(b"\xff" * plaintext_len, "big")
+        )
         return plaintext.to_bytes(plaintext_len, byteorder="big")
 
 
@@ -204,7 +209,7 @@ class ShortWeierstrassCurve(Curve):
         s = delta_y * modinv(delta_x, self.p)
         res_x = (s * s - P.x - Q.x) % self.p
         res_y = (P.y + s * (res_x - P.x)) % self.p
-        return - Point(res_x, res_y, self)
+        return -Point(res_x, res_y, self)
 
     def _double_point(self, P: Point) -> Point:
         # s = (3 * xP^2 + a) / (2 * yP)
@@ -213,7 +218,7 @@ class ShortWeierstrassCurve(Curve):
         s = (3 * P.x * P.x + self.a) * modinv(2 * P.y, self.p)
         res_x = (s * s - 2 * P.x) % self.p
         res_y = (P.y + s * (res_x - P.x)) % self.p
-        return - Point(res_x, res_y, self)
+        return -Point(res_x, res_y, self)
 
     def _neg_point(self, P: Point) -> Point:
         return Point(P.x, -P.y % self.p, self)
@@ -244,7 +249,7 @@ class MontgomeryCurve(Curve):
         s = delta_y * modinv(delta_x, self.p)
         res_x = (self.b * s * s - self.a - P.x - Q.x) % self.p
         res_y = (P.y + s * (res_x - P.x)) % self.p
-        return - Point(res_x, res_y, self)
+        return -Point(res_x, res_y, self)
 
     def _double_point(self, P: Point) -> Point:
         # s = (3 * xP^2 + 2 * a * xP + 1) / (2 * b * yP)
@@ -255,7 +260,7 @@ class MontgomeryCurve(Curve):
         s = up * modinv(down, self.p)
         res_x = (self.b * s * s - self.a - 2 * P.x) % self.p
         res_y = (P.y + s * (res_x - P.x)) % self.p
-        return - Point(res_x, res_y, self)
+        return -Point(res_x, res_y, self)
 
     def _neg_point(self, P: Point) -> Point:
         return Point(P.x, -P.y % self.p, self)
@@ -273,6 +278,7 @@ class TwistedEdwardsCurve(Curve):
     ax^2 + y^2 = 1 + bx^2y^2
     https://en.wikipedia.org/wiki/Twisted_Edwards_curve
     """
+
     def _is_on_curve(self, P: Point) -> bool:
         left = self.a * P.x * P.x + P.y * P.y
         right = 1 + self.b * P.x * P.x * P.y * P.y
@@ -317,58 +323,58 @@ P256 = ShortWeierstrassCurve(
     name="P256",
     a=-3,
     b=41058363725152142129326129780047268409114441015993725554835256314039467401291,
-    p=0xffffffff00000001000000000000000000000000ffffffffffffffffffffffff,
-    n=0xffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551,
-    G_x=0x6b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296,
-    G_y=0x4fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5
+    p=0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF,
+    n=0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551,
+    G_x=0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296,
+    G_y=0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5,
 )
 
 secp256k1 = ShortWeierstrassCurve(
     name="secp256k1",
     a=0,
     b=7,
-    p=0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f,
-    n=0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141,
-    G_x=0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798,
-    G_y=0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8
+    p=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+    n=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141,
+    G_x=0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798,
+    G_y=0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8,
 )
 
 Curve25519 = MontgomeryCurve(
     name="Curve25519",
     a=486662,
     b=1,
-    p=0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffed,
-    n=0x1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed,
+    p=0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFED,
+    n=0x1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED,
     G_x=0x9,
-    G_y=0x20ae19a1b8a086b4e01edd2c7748d14c923d4d7e6d7c61b229e9c5a27eced3d9
+    G_y=0x20AE19A1B8A086B4E01EDD2C7748D14C923D4D7E6D7C61B229E9C5A27ECED3D9,
 )
 
 M383 = MontgomeryCurve(
     name="M383",
     a=2065150,
     b=1,
-    p=0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff45,
-    n=0x10000000000000000000000000000000000000000000000006c79673ac36ba6e7a32576f7b1b249e46bbc225be9071d7,
-    G_x=0xc,
-    G_y=0x1ec7ed04aaf834af310e304b2da0f328e7c165f0e8988abd3992861290f617aa1f1b2e7d0b6e332e969991b62555e77e
+    p=0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF45,
+    n=0x10000000000000000000000000000000000000000000000006C79673AC36BA6E7A32576F7B1B249E46BBC225BE9071D7,
+    G_x=0xC,
+    G_y=0x1EC7ED04AAF834AF310E304B2DA0F328E7C165F0E8988ABD3992861290F617AA1F1B2E7D0B6E332E969991B62555E77E,
 )
 
 E222 = TwistedEdwardsCurve(
     name="E222",
     a=1,
     b=160102,
-    p=0x3fffffffffffffffffffffffffffffffffffffffffffffffffffff8b,
-    n=0xffffffffffffffffffffffffffff70cbc95e932f802f31423598cbf,
-    G_x=0x19b12bb156a389e55c9768c303316d07c23adab3736eb2bc3eb54e51,
-    G_y=0x1c
+    p=0x3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8B,
+    n=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFF70CBC95E932F802F31423598CBF,
+    G_x=0x19B12BB156A389E55C9768C303316D07C23ADAB3736EB2BC3EB54E51,
+    G_y=0x1C,
 )
 
 E382 = TwistedEdwardsCurve(
     name="E382",
     a=1,
     b=-67254,
-    p=0x3fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff97,
-    n=0xfffffffffffffffffffffffffffffffffffffffffffffffd5fb21f21e95eee17c5e69281b102d2773e27e13fd3c9719,
-    G_x=0x196f8dd0eab20391e5f05be96e8d20ae68f840032b0b64352923bab85364841193517dbce8105398ebc0cc9470f79603,
-    G_y=0x11
+    p=0x3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF97,
+    n=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD5FB21F21E95EEE17C5E69281B102D2773E27E13FD3C9719,
+    G_x=0x196F8DD0EAB20391E5F05BE96E8D20AE68F840032B0B64352923BAB85364841193517DBCE8105398EBC0CC9470F79603,
+    G_y=0x11,
 )

@@ -2,7 +2,7 @@
 
 
 def modsqrt(a, p):
-    """ Find a quadratic residue (mod p) of 'a'. p
+    """Find a quadratic residue (mod p) of 'a'. p
     must be an odd prime.
     Solve the congruence of the form:
     x^2 = a (mod p)
@@ -84,7 +84,7 @@ def modsqrt(a, p):
 
 
 def legendre_symbol(a, p):
-    """ Compute the Legendre symbol a|p using
+    """Compute the Legendre symbol a|p using
     Euler's criterion. p is a prime, a is
     relatively prime to p (if p divides
     a, then a|p = 0)
