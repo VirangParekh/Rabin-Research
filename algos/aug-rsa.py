@@ -1,9 +1,7 @@
 import random
 
-# from mathTools.tools import
+
 # GCD based on Euclid's Algorithm
-
-
 def gcd(e, r):
     while r != 0:
         e, r = r, e % r
@@ -11,20 +9,18 @@ def gcd(e, r):
 
 
 # Extended Euclidean Algorithm
-
-
 def eea(a, b):
     if a % b == 0:
         return (b, 0, 1)
+
     else:
         gcd, s, t = eea(b, a % b)
         s = s - ((a // b) * t)
+
         return (gcd, t, s)
 
 
 # Multiplicative Inverse
-
-
 def mult_inv(e, r):
     gcd, s, _ = eea(e, r)
     if gcd != 1:
@@ -34,46 +30,44 @@ def mult_inv(e, r):
 
 
 # rsa encryption
-
-
 def rsa_encrypt(pub_key, text):
     n, e = pub_key
     result = list()
     index = 0
+
     for i in text:
         index = ord(i)
         c = (index ** e) % n
         result.append(c)
-        # print(i,c)
+
     return result
 
 
 # rsa decryption
-"""DECRYPTION ALGORITHM"""
-
-
 def rsa_decrypt(priv_key, c_text):
     n, d = priv_key
     txt = c_text
     x = ""
     index = 0
+
     for i in txt:
         index = (int(i) ** d) % n
-        # print(index)
         c = chr(index)
         x += c
+
     return x
 
 
 def key_generation(p, q):
     public_key = p * q
     pvt_key = (p, q)
+
     return public_key, pvt_key
 
 
 def encryption(public_key, message):
-    n = public_key
     enc_text = (message ** 2) % public_key
+
     return enc_text
 
 

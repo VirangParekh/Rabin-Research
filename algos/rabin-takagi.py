@@ -1,11 +1,6 @@
 import decimal
-from fractions import Fraction
 
 decimal.getcontext().prec = 10_00_000
-
-"""TODO:
-        implement gcd and eea
-"""
 
 
 def gcd(e, r):
@@ -43,8 +38,8 @@ def key_generation(p, q):
 
 
 def encryption(public_key, message):
-    n = public_key
     enc_text = (message ** 2) % public_key
+
     return enc_text
 
 

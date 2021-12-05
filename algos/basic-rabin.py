@@ -1,4 +1,4 @@
-from mathTools.tools import gcd, eea
+from utils.tools import eea
 
 
 def key_generation(p, q):
@@ -8,7 +8,6 @@ def key_generation(p, q):
 
 
 def encryption(public_key, message):
-    n = public_key
     enc_text = (message ** 2) % public_key
     return enc_text
 
