@@ -1,9 +1,9 @@
 import random
+from dataclasses import dataclass
 from os import urandom
 from typing import Callable, Tuple
-from dataclasses import dataclass
 
-from ecc.curve import Curve, Point
+from curve import Curve, Point
 
 
 @dataclass

@@ -1,11 +1,11 @@
-from os import urandom
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from os import urandom
 from typing import Optional
 
-from ecc.math_utils.mod_inverse import modinv
-from ecc.math_utils.mod_sqrt import modsqrt
-from ecc.utils import int_length_in_byte
+from math_utils.mod_inverse import modinv
+from math_utils.mod_sqrt import modsqrt
+from utils import int_length_in_byte
 
 
 @dataclass
