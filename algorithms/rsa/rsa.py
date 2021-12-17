@@ -1,78 +1,69 @@
-import pathlib
+from typing import Any, Tuple
 
-from Crypto.Cipher import PKCS1_OAEP
-from Crypto.PublicKey import RSA
-from utils.utils import retrieveKey, saveKey
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import rsa as RSA
+from cryptography.hazmat.primitives.asymmetric.padding import MGF1, OAEP
 
 
-def keyGen(save_path: pathlib.Path, key_size: int) -> None:
+def keyGen(key_size: int) -> Tuple[Any, Any]:
     """Genrates key for RSA algorithm.
 
     Parameters
     ----------
-    save_path : pathlib.Path
-        Path to file
     key_size : int
         Size of key
     """
-    key = RSA.generate(key_size)
+    private_key = RSA.generate_private_key(65537, key_size)
+    public_key = private_key.public_key()
 
-    private_key = key.export_key()
-    saveKey(private_key, key_size, save_path.joinpath("private"), "pem")
-
-    public_key = key.publickey().export_key()
-    saveKey(public_key, key_size, save_path.joinpath("public"), "pem")
+    return private_key, public_key
 
 
-def encrypt(plain_text: str, save_path: pathlib.Path, key_size: int) -> str:
+def encrypt(plain_text: bytes, key_size: int) -> Tuple[bytes, Any]:
     """Encrypts plain text using RSA.
 
     Parameters
     ----------
-    plain_message : str
+    plain_message : bytes
         Message to encrypt
-    save_path : pathlib.Path
-        Path to file
     key_size : int
         Size of key
 
     Returns
     -------
-    str
-        Encrypted text
+    Tuple[bytes, Any]
+        Private Key, Encrypted text
     """
-    public_key = RSA.import_key(
-        retrieveKey(key_size, save_path.joinpath("public"), "pem")
+    private_key, public_key = keyGen(key_size)
+
+    cipher_text = public_key.encrypt(
+        plain_text,
+        OAEP(MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None),
     )
 
-    rsa_encryptor = PKCS1_OAEP.new(public_key)
-    cipher_text = rsa_encryptor.encrypt(plain_text)
-
-    return cipher_text
+    return cipher_text, private_key
 
 
-def decrypt(cipher_text: str, save_path: pathlib.Path, key_size: int) -> str:
+def decrypt(cipher_text: bytes, private_key: Any) -> bytes:
     """Decrypts RSA encrypted text.
 
     Parameters
     ----------
-    ciphertext : str
+    ciphertext : bytes
         Encrypted text
-    save_path : pathlib.Path
-        Path to file
-    key_size : int
+    key_size : Any
         Size of key
 
     Returns
     -------
-    str
-        Decrypted key
+    bytes
+        Decrypted text
     """
-    private_key = RSA.import_key(
-        retrieveKey(key_size, save_path.joinpath("private"), "pem")
+    plain_text = private_key.decrypt(
+        cipher_text,
+        OAEP(
+            mgf=MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(), label=None
+        ),
     )
-
-    rsa_decryptor = PKCS1_OAEP.new(private_key)
-    plain_text = rsa_decryptor.decrypt(cipher_text)
 
     return plain_text

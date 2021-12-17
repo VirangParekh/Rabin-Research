@@ -4,7 +4,7 @@ from binascii import hexlify
 from os import urandom
 from typing import Callable, Tuple
 
-from curve import Curve, Point
+from cipher.curve import Curve, Point
 
 
 def gen_keypair(curve: Curve, randfunc: Callable = None) -> Tuple[int, Point]:

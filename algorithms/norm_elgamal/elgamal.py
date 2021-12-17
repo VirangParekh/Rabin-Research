@@ -1,82 +1,47 @@
-import pathlib
+from typing import Any, Tuple
 
-from utils.utils import retrieveKey, saveKey
-
-from cipher.elgamal_cipher import ElGamal
+import cipher.elg_cipher as ElGamal
 
 
-def keyGen(save_path: pathlib.Path, key_size: int) -> object:
-    """Genrates key for elgamal algorithm.
-
-    Parameters
-    ----------
-    save_path : pathlib.Path
-        Path to file
-    key_size : int
-        Size of key
-
-    Returns
-    -------
-    object
-        Elgamal object
-    """
-    elgamal = ElGamal()
-    keyset = elgamal.generate_keys(key_size)
-
-    saveKey(keyset, key_size, save_path.joinpath("public_private"), "json")
-
-    return elgamal
-
-
-def encrypt(
-    elgamal: object, plain_message: str, save_path: pathlib.Path, key_size: int
-) -> str:
+def encrypt(key_size: int, plain_text: str) -> Tuple[Any, str]:
     """Encrypts plain text using elgamal.
 
     Parameters
     ----------
-    elgamal : object
-        Initialized elgamal object
-    plain_message : str
-        Message to encrypt
-    save_path : pathlib.Path
-        Path to file
     key_size : int
         Size of key
+    plain_text : str
+        Message to encrypt
 
     Returns
     -------
-    str
+    tuple[str, Any]
         Encrypted text
     """
-    cipher_text, session_key = elgamal.encrypt(plain_message)
+    private_key, public_key = ElGamal.generate_keys(key_size).values()
+    cipher_text = ElGamal.encrypt(public_key, plain_text)
 
-    saveKey(session_key, key_size, save_path.joinpath("ephemeral"))
-
-    return cipher_text
+    return private_key, cipher_text
 
 
-def decrypt(cipher_text: str, save_path: pathlib.Path, key_size: int) -> str:
+def decrypt(private_key: Any, cipher_text: str) -> str:
     """Decrypts elgamal encrypted text.
 
     Parameters
     ----------
+    private_key : Any
+        Private Key for decryption
     cipher_text : str
         Encrypted text
-    save_path : pathlib.Path
-        Path to file
-    key_size : int
-        Size of key
 
     Returns
     -------
     str
         Decrypted text
     """
-    keyset = retrieveKey(key_size, save_path.joinpath("public_private"), "json")
-    session_key = retrieveKey(key_size, save_path.joinpath("public_private"), "json")
+    return ElGamal.decrypt(private_key, cipher_text)
 
-    elgamal = ElGamal(keyset)
-    plain_text = elgamal.decrypt([cipher_text, session_key])
 
-    return plain_text
+if __name__ == "__main__":
+    private_key, cipher_text = encrypt(128, "Hello I am Amogh")
+    decrypt(private_key, cipher_text)

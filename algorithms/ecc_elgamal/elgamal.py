@@ -1,64 +1,43 @@
-import pathlib
-
-from utils.utils import retrieveKey, saveKey
+from typing import Any, Tuple
 
 from cipher.cipher import ElGamal
+from cipher.curve import Point
 from cipher.key import gen_keypair
 
 
-def keyGen(save_path: pathlib.Path, curve: str) -> None:
-    """Genrates ECC key.
-
-    Parameters
-    ----------
-    save_path : pathlib.Path
-        Path to file
-    curve: str
-        ECC curve
-    """
-    public_key, private_key = gen_keypair(curve)
-
-    saveKey(private_key, curve, save_path.joinpath("private"), "json")
-    saveKey(public_key, curve, save_path.joinpath("public"), "json")
-
-
-def encrypt(
-    plain_text: str, save_path: pathlib.Path, curve: str
-) -> tuple[float, float]:
+def encrypt(plain_text: str, curve: Any) -> Tuple[Tuple, Point]:
     """Encrypts plain text using RSA.
 
     Parameters
     ----------
     plain_message : str
         Message to encrypt
-    save_path : pathlib.Path
-        Path to file
-    curve : str
+    curve : Any
         ECC curve
 
     Returns
     -------
-    Tuple[float, float]
+    Tuple[tuple, Point]
         Points on elliptic curve
     """
-    public_key = retrieveKey(curve, save_path.joinpath("public"), "json")
+    private_key, public_key = gen_keypair(curve)
 
     elgamal = ElGamal(curve)
-    curve_pt = elgamal.encrypt(plain_text, public_key)
+    curve_pts = elgamal.encrypt(plain_text, public_key)
 
-    return curve_pt
+    return curve_pts, private_key
 
 
-def decrypt(curve_pt: tuple[float, float], save_path: pathlib.Path, curve: str) -> str:
+def decrypt(curve_pts: tuple[Point, Point], private_key: Point, curve: Any) -> str:
     """Decrypts RSA encrypted text.
 
     Parameters
     ----------
-    ciphertext : str
-        Encrypted text
-    save_path : pathlib.Path
-        Path to file
-    curve : str
+    curve_pts : tuple[Point, Point]
+        ECC points on curve
+    private_key : Point
+        Private Key for decryption
+    curve : Any
         ECC curve
 
     Returns
@@ -66,9 +45,7 @@ def decrypt(curve_pt: tuple[float, float], save_path: pathlib.Path, curve: str) 
     str
         Decrypted key
     """
-    private_key = retrieveKey(curve, save_path.joinpath("private"), "json")
-
     elgamal = ElGamal(curve)
-    plain_text = elgamal.decrypt(private_key, curve_pt[0], curve_pt[1])
+    plain_text = elgamal.decrypt(private_key, curve_pts[0], curve_pts[1])
 
     return plain_text

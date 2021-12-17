@@ -3,9 +3,9 @@ from dataclasses import dataclass
 from os import urandom
 from typing import Optional
 
-from math_utils.mod_inverse import modinv
-from math_utils.mod_sqrt import modsqrt
-from utils import int_length_in_byte
+from cipher.math_utils.mod_inverse import modinv
+from cipher.math_utils.mod_sqrt import modsqrt
+from cipher.utils import int_length_in_byte
 
 
 @dataclass

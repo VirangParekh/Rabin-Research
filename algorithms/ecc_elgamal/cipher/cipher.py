@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from os import urandom
 from typing import Callable, Tuple
 
-from curve import Curve, Point
+from cipher.curve import Curve, Point
 
 
 @dataclass
