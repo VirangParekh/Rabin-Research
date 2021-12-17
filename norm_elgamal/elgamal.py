@@ -1,6 +1,6 @@
 from typing import Any, Tuple
 
-import cipher.elg_cipher as ElGamal
+import elg_cipher as ElGamal
 
 
 def encrypt(plain_text: str, key_size: int) -> Tuple[Any, str]:
@@ -42,6 +42,6 @@ def decrypt(cipher_text: str, private_key: Any) -> str:
     return ElGamal.decrypt(cipher_text, private_key)
 
 
-if __name__ == "__main__":
-    private_key, cipher_text = encrypt(128, "Hello I am Amogh")
-    decrypt(private_key, cipher_text)
+def caller(plain_text: bytes, key_size: int):
+    private_key, cipher_text = encrypt(plain_text, key_size)
+    decrypt(cipher_text, private_key)

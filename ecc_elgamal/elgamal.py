@@ -49,3 +49,8 @@ def decrypt(curve_pts: tuple[Point, Point], private_key: Point, curve: Any) -> s
     plain_text = elgamal.decrypt(private_key, curve_pts[0], curve_pts[1])
 
     return plain_text
+
+
+def caller(plain_text: bytes, curve: Any):
+    curve_pts, private_key = encrypt(plain_text, curve)
+    decrypt(curve_pts, private_key, curve)
