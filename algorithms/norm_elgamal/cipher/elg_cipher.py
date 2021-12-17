@@ -336,7 +336,7 @@ def encrypt(key, sPlaintext):
 
 # performs decryption on the cipher pairs found in Cipher using
 # prive key K2 and writes the decrypted values to file Plaintext
-def decrypt(key, cipher):
+def decrypt(cipher, key):
     # decrpyts each pair and adds the decrypted integer to list of plaintext integers
     plaintext = []
 

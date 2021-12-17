@@ -3,15 +3,15 @@ from typing import Any, Tuple
 import cipher.elg_cipher as ElGamal
 
 
-def encrypt(key_size: int, plain_text: str) -> Tuple[Any, str]:
+def encrypt(plain_text: str, key_size: int) -> Tuple[Any, str]:
     """Encrypts plain text using elgamal.
 
     Parameters
     ----------
-    key_size : int
-        Size of key
     plain_text : str
         Message to encrypt
+    key_size : int
+        Size of key
 
     Returns
     -------
@@ -24,22 +24,22 @@ def encrypt(key_size: int, plain_text: str) -> Tuple[Any, str]:
     return private_key, cipher_text
 
 
-def decrypt(private_key: Any, cipher_text: str) -> str:
+def decrypt(cipher_text: str, private_key: Any) -> str:
     """Decrypts elgamal encrypted text.
 
     Parameters
     ----------
-    private_key : Any
-        Private Key for decryption
     cipher_text : str
         Encrypted text
+    private_key : Any
+        Private Key for decryption
 
     Returns
     -------
     str
         Decrypted text
     """
-    return ElGamal.decrypt(private_key, cipher_text)
+    return ElGamal.decrypt(cipher_text, private_key)
 
 
 if __name__ == "__main__":
