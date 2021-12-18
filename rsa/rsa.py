@@ -70,3 +70,5 @@ def decrypt(cipher_text: bytes, key_pair: Any) -> bytes:
 def caller(plain_text: bytes, key_size: int):
     cipher_text, private_key, key_pair = encrypt(plain_text, key_size)
     decrypt(cipher_text, key_pair)
+
+    return plain_text, cipher_text

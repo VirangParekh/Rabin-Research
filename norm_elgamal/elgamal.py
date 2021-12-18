@@ -45,3 +45,5 @@ def decrypt(cipher_text: str, private_key: Any) -> str:
 def caller(plain_text: bytes, key_size: int):
     private_key, cipher_text = encrypt(plain_text, key_size)
     decrypt(cipher_text, private_key)
+
+    return plain_text, cipher_text

@@ -54,3 +54,5 @@ def decrypt(curve_pts: tuple[Point, Point], private_key: Point, curve: Any) -> s
 def caller(plain_text: bytes, curve: Any):
     curve_pts, private_key = encrypt(plain_text, curve)
     decrypt(curve_pts, private_key, curve)
+
+    return plain_text, curve_pts
