@@ -180,3 +180,10 @@ pydevd*.log
 nodeLanguageServer/**
 nodeLanguageServer.*/**
 dist/**
+
+
+# images
+*.png
+*.jpg
+*.jpeg
+*.bmp

@@ -18,7 +18,7 @@ def encrypt(plain_text: str, key_size: int) -> Tuple[Any, str]:
     tuple[str, Any]
         Encrypted text
     """
-    private_key, public_key = ElGamal.generate_keys(key_size).values()
+    private_key, public_key = ElGamal.generate_keys(iNumBits=key_size).values()
     cipher_text = ElGamal.encrypt(public_key, plain_text)
 
     return private_key, cipher_text
@@ -42,7 +42,7 @@ def decrypt(cipher_text: str, private_key: Any) -> str:
     return ElGamal.decrypt(cipher_text, private_key)
 
 
-def caller(plain_text: bytes, key_size: int):
+def caller(plain_text: str, key_size: int):
     private_key, cipher_text = encrypt(plain_text, key_size)
     decrypt(cipher_text, private_key)
 
