@@ -182,8 +182,8 @@ nodeLanguageServer.*/**
 dist/**
 
 
-# images
-*.png
-*.jpg
-*.jpeg
-*.bmp
+# # images
+# *.png
+# *.jpg
+# *.jpeg
+# *.bmp
