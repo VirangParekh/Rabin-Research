@@ -28,7 +28,9 @@ def encrypt(plain_text: str, curve: Any) -> Tuple[Tuple, Point]:
     return curve_pts, private_key
 
 
-def decrypt(curve_pts: tuple[Point, Point], private_key: Point, curve: Any) -> str:
+def decrypt(curve_pts: Tuple[Point, Point],
+            private_key: Point,
+            curve: Any) -> str:
     """Decrypts RSA encrypted text.
 
     Parameters
