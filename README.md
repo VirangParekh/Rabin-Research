@@ -30,7 +30,7 @@ RABIN-RESEARCH
 ## To Set Up this project locally
 
 - In the desired folder, git bash the following:
-  > > `git clone https://github.com/VirangParekh/Rabin-Research.git`
+`git clone https://github.com/VirangParekh/Rabin-Research.git`
 - Set up a python virtual environment using the following commands:
 
 ```Python
