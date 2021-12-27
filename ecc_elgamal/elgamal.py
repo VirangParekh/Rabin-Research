@@ -5,7 +5,7 @@ from cipher.curve import Point
 from cipher.key import gen_keypair
 
 
-def encrypt(plain_text: str, curve: Any) -> Tuple[Tuple, Point]:
+def encrypt(plain_text: str, curve: Any) -> Tuple[Any, str, Point]:
     """Encrypts plain text using RSA.
 
     Parameters
@@ -25,7 +25,7 @@ def encrypt(plain_text: str, curve: Any) -> Tuple[Tuple, Point]:
     elgamal = ElGamal(curve)
     curve_pts = elgamal.encrypt(plain_text, public_key)
 
-    return curve_pts, private_key
+    return private_key, plain_text, curve_pts
 
 
 def decrypt(curve_pts: Tuple[Point, Point],
@@ -51,10 +51,3 @@ def decrypt(curve_pts: Tuple[Point, Point],
     plain_text = elgamal.decrypt(private_key, curve_pts[0], curve_pts[1])
 
     return plain_text
-
-
-def caller(plain_text: bytes, curve: Any):
-    curve_pts, private_key = encrypt(plain_text, curve)
-    decrypt(curve_pts, private_key, curve)
-
-    return plain_text, curve_pts

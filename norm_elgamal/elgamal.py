@@ -3,7 +3,7 @@ from typing import Any, Tuple
 import elg_cipher as ElGamal
 
 
-def encrypt(plain_text: str, key_size: int) -> Tuple[Any, str]:
+def encrypt(plain_text: str, key_size: int) -> Tuple[Any, str, str]:
     """Encrypts plain text using elgamal.
 
     Parameters
@@ -21,7 +21,7 @@ def encrypt(plain_text: str, key_size: int) -> Tuple[Any, str]:
     private_key, public_key = ElGamal.generate_keys(iNumBits=key_size).values()
     cipher_text = ElGamal.encrypt(public_key, plain_text)
 
-    return private_key, cipher_text
+    return private_key, plain_text, cipher_text
 
 
 def decrypt(cipher_text: str, private_key: Any) -> str:
@@ -40,10 +40,3 @@ def decrypt(cipher_text: str, private_key: Any) -> str:
         Decrypted text
     """
     return ElGamal.decrypt(cipher_text, private_key)
-
-
-def caller(plain_text: str, key_size: int):
-    private_key, cipher_text = encrypt(plain_text, key_size)
-    decrypt(cipher_text, private_key)
-
-    return plain_text, cipher_text

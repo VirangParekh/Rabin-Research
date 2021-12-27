@@ -38,12 +38,11 @@ def encrypt(plain_text: bytes, key_size: int) -> Tuple[bytes, Any]:
         Private Key, Encrypted text
     """
     private_key, public_key, key_pair = keyGen(key_size)
-
     key = RSA.importKey(public_key)
     encryptor = PKCS1_OAEP.new(key)
     cipher_text = encryptor.encrypt(plain_text)
 
-    return cipher_text, private_key, key_pair
+    return key_pair, plain_text, cipher_text
 
 
 def decrypt(cipher_text: bytes, key_pair: Any) -> bytes:
@@ -65,10 +64,3 @@ def decrypt(cipher_text: bytes, key_pair: Any) -> bytes:
     plain_text = decryptor.decrypt(cipher_text)
 
     return plain_text
-
-
-def caller(plain_text: bytes, key_size: int):
-    cipher_text, private_key, key_pair = encrypt(plain_text, key_size)
-    decrypt(cipher_text, key_pair)
-
-    return plain_text, cipher_text
