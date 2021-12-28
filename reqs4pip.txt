@@ -47,7 +47,7 @@ mccabe==0.6.1
 memory-profiler @ file:///home/conda/feedstock_root/build_artifacts/memory_profiler_1639923304949/work
 mistune @ file:///home/conda/feedstock_root/build_artifacts/mistune_1635844679781/work
 more-itertools @ file:///home/conda/feedstock_root/build_artifacts/more-itertools_1637732846337/work
-mypy @ file:///home/conda/feedstock_root/build_artifacts/mypy_1639756494326/work
+mypy @ file:///home/conda/feedstock_root/build_artifacts/mypy_1640465710271/work
 mypy-extensions @ file:///home/conda/feedstock_root/build_artifacts/mypy_extensions_1635839744187/work
 nbclassic @ file:///home/conda/feedstock_root/build_artifacts/nbclassic_1635436909771/work
 nbclient @ file:///home/conda/feedstock_root/build_artifacts/nbclient_1637327213451/work
